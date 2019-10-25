@@ -1,35 +1,38 @@
 import json
-from django.http import JsonResponse, HttpResponse
+
+from django.shortcuts import render
 from django.shortcuts import get_object_or_404
-from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
-from .models import Todo
+
+from rest_framework import mixins
+from rest_framework import status
+from rest_framework import viewsets
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.decorators import action
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.authentication import *
+from rest_framework.permissions import *
+
+from todos_app.models import Todo
+from todos_app.serializers import TodoModelSerializer
 
 
-class BaseCSRFExemptView(View):
-    @method_decorator(csrf_exempt)
+class BaseCSRFExemptView(viewsets.ModelViewSet):
+    @csrf_exempt
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
 
 
-class TodoListView(BaseCSRFExemptView):
-    def get(self, request):
-        raise NotImplementedError('List GET')
+class TodoModelViewSet(BaseCSRFExemptView):
+    serializer_class = TodoModelSerializer
+    queryset = Todo.objects.all()
 
-    def post(self, request):
-        raise NotImplementedError('List POST')
-
-
-class TodoDetailView(BaseCSRFExemptView):
-    def get(self, request, todo_id):
-        raise NotImplementedError('Detail POST')
-
-    def delete(self, request, todo_id):
-        raise NotImplementedError('Detail DELETE')
-
-    def patch(self, request, todo_id):
-        raise NotImplementedError('Detail PATCH')
-
-    def put(self, request, todo_id):
-        raise NotImplementedError('Detail PUT')
+    # @action(detail=False, methods=['GET'], url_path='all-invoices')
+    # def all_invoices(self, request, pk=None):
+    #     return Response({"msg": "All invoices list!!!!"})
+    #
+    # @action(detail=True, methods=['GET'], url_path='detail-invoices')
+    # def detail_invoices(self, request, pk=None):
+    #     return Response({"msg": "Detail invoices {}!!!!".format(pk)})
+    #

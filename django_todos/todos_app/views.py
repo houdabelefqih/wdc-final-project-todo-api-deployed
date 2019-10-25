@@ -22,6 +22,7 @@ def create(request):
     Todo.objects.create(title=request.POST['title'])
     return redirect('/')
 
+
 def toggle(request):
     todo = get_object_or_404(Todo, id=request.POST['todo_id'])
     todo.completed = not todo.completed
