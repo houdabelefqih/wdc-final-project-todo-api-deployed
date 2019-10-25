@@ -122,12 +122,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_URL = '/static/'
-
-STATICFILES_DIRS = [
-    os.path.join(PROJECT_DIR, "static"),
-]
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'staticfiles')
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -143,3 +137,11 @@ REST_FRAMEWORK = {
 
     'PAGE_SIZE': 1,
 }
+
+
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(PROJECT_DIR, "static"),
+]
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'staticfiles')
